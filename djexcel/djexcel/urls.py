@@ -14,8 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.conf.urls.static import static
+from django.conf.urls import url, include
+from djexcel import settings
+from excel import views
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url(r'^$', views.exceltest, name='salary_update_excel'),
+    url(r'^excel', views.salary_update_excel, name='salary_update_excel')
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
