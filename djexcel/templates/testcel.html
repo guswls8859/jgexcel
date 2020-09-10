@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="{% static 'js/jquery-1.12.3.min.js' %}"></script>
+</head>
+<body>
+   <form id="frm_excel" name="frm_excel" enctype="multipart/form-data">
+
+       <input type="file" name="file_excel" id="file_excel">
+
+       <button type="button" onclick="execl_upload();">업로드</button>
+
+   </form>
+
+<script>
+
+//엑셀 업로드
+        function execl_upload(){
+            if(!$('#file_excel').val()){
+                alert('엑셀 파일을 입력하세요');
+            }else{
+
+                var ext = $('#file_excel').val().split('.').pop().toLowerCase();
+                if($.inArray(ext, ['xls','xlsx']) == -1) {
+	                alert('엑셀 파일만 업로드 할 수 있습니다.');
+                }else{
+                    if (confirm('엑셀을 반영 하시겠습니까?')){
+
+
+                       // Get form
+                       var form = $('#frm_excel')[0];
+
+                       // Create an FormData object
+                       var formData = new FormData(form);
+                       var params = "";
+                       var msg = "";
+                       $.ajax({
+                           url: "excel",
+                           type: "POST",
+                           enctype: 'multipart/form-data',
+                           processData: false,
+                           contentType: false,
+                           data: formData,
+                           dataType: "JSON", // JSON 리턴
+                           beforeSend: function () {
+                           },
+                           success: function (data) {
+                               // success
+                               alert(data.rtnmsg);
+                               if (data.state) {
+                                   location.reload();
+                               }
+                           },
+                           complete: function (data) {
+                               // 통신이 실패했어도 완료가 되었을 때
+                           },
+                           error: function (xhr, status, error) {
+                               alert("통신 에러");
+                           },
+                       });
+                    }
+                }
+            }
+        }
+
+
+ </script>
+</body>
+</html>

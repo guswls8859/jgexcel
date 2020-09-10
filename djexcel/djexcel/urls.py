@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf.urls import url, include
 from djexcel import settings
+from excel import views
 
 
 urlpatterns = [
-    url(r'^&', admin.site.urls),
+    url(r'^$', views.exceltest, name='salary_update_excel'),
+    url(r'^excel', views.salary_update_excel, name='salary_update_excel')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
